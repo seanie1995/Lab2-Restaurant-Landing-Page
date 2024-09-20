@@ -1,0 +1,23 @@
+﻿@model List<Dish>
+
+<link rel="stylesheet" href="~/css/Menu.css" />
+
+<h1>Menu</h1>
+
+@foreach(var dish in Model)
+{
+    <div class="menu-cards">
+        <div class="card text-white bg-primary mb-3" style="max-width: 20rem;">
+            <div class="card-header"><h4 class="card-title">@dish.Name</h4></div>
+            <div class="card-body">         
+                <p class="card-text">@dish.Price</p>
+                <span class="badge bg-primary">@dish.Availability</span>
+            </div>
+        </div>
+    </div>
+}
+
+
+
+
+

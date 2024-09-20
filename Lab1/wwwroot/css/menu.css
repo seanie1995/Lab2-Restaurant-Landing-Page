@@ -1,0 +1,18 @@
+﻿.menu-cards {
+    display: flex;
+    justify-content: space-evenly; /* Ensures even spacing between cards */
+    flex-wrap: wrap; /* Ensures cards wrap to the next line if they overflow */
+    gap: 20px; /* Adds space between each card */
+    padding-top: 2rem;
+}
+
+h1 {
+    padding-top: 2rem;
+    display: flex;
+    justify-content: center;
+}
+
+.menu-card {
+    max-width: 20rem;
+    flex: 1; /* Makes each card take an equal amount of available space */
+}
