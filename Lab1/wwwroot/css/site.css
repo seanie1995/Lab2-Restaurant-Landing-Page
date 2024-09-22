@@ -44,3 +44,29 @@ body {
     display: flex;
     justify-content: center;
 }
+
+/* ADMIN MENU*/
+
+.admin-menu-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Vertically center */
+    align-items: center; /* Horizontally center */
+    height: 50vh; /* Takes the full height of the viewport */
+}
+
+.admin-menu-button-container {
+    display: flex;
+    flex-direction: row;
+    gap: 10px; /* Adds space between the buttons */
+}
+
+/* DISH INDEX*/
+
+.all-dishes {
+    padding-top: 2rem;
+}
+
+.all-dishes h5 {
+    
+}

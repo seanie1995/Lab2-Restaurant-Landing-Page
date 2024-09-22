@@ -18,7 +18,7 @@ namespace Lab1.Controllers
 
         public async Task<IActionResult> Index()
         {
-            ViewData["Title"] = "Menu";
+            ViewData["Title"] = "Dish Overview";
 
             var response = await _client.GetAsync($"{baseUrl}/api/Dishes/getAllDishes");
 
@@ -29,31 +29,68 @@ namespace Lab1.Controllers
             return View(dishList);
         }
 
-        //public async Task<IActionResult> Edit(int id)
-        //{
-        //    var response = await _client.GetAsync($"{baseUrl}/api/Dishes/getDishById/{id}");
+        public async Task<IActionResult> AdminMenu()
+        {
+            return View();
+        }
 
-        //    var json = await response.Content.ReadAsStringAsync();
+        [HttpPost]
+        public async Task<IActionResult> Create(Dish dish)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(dish);
+            }
 
-        //    var dish = JsonConvert.DeserializeObject<Dish>(json);
+            var json = JsonConvert.SerializeObject(dish);
 
-        //    return View(dish);
-        //}
-        //[HttpPost]
-        //public async Task<IActionResult> Edit(Dish dish)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return View(dish);
-        //    }
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-        //    var json = JsonConvert.SerializeObject(dish);
+            var response = await _client.PostAsync($"{baseUrl}/api/Dishes/addNewDish", content);
 
-        //    var content = new StringContent(json, Encoding.UTF8, "application/json");
+            return RedirectToAction("Index");
+        }
 
-        //    await _client.PutAsync($"{baseUrl}//api/Dishes/updateDishById/{dish.Id}", content);
+        public async Task<IActionResult> Edit(int id)
+        {
+            var response = await _client.GetAsync($"{baseUrl}/api/Dishes/getDishById/{id}");
 
-        //    return RedirectToAction("Dishes");
-        //}
+            var json = await response.Content.ReadAsStringAsync();
+
+            var dish = JsonConvert.DeserializeObject<Dish>(json);
+
+            return View(dish);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Edit(Dish dish)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(dish);
+            } 
+
+            var json = JsonConvert.SerializeObject(dish);
+            Console.WriteLine("Sending JSON to API: " + json);
+
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var response = await _client.PutAsync($"{baseUrl}/api/Dishes/updateDishById/{dish.Id}", content);
+            if (!response.IsSuccessStatusCode)
+            {            
+                ModelState.AddModelError("", "Failed to update the dish. Please try again.");
+                return View(dish); // Return to the edit view with the model to show error messages
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var response = await _client.DeleteAsync($"{baseUrl}/api/Dishes/deleteDishById/{id}");
+
+            return RedirectToAction("Index");
+        }
     }
 }
+

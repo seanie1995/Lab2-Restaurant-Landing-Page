@@ -1,0 +1,32 @@
+﻿@model List<Dish>
+
+<link rel="stylesheet" href="~/css/Menu.css" />
+
+<h2 class="menu-header">Menu</h2>
+
+<div class="menu-card-container">
+@foreach(var dish in Model)
+{
+    <div class="menu-cards">
+        <div class="card text-white bg-primary mb-3 menu-item">
+            <div class="card-header"><h4 class="card-title">@dish.Name</h4></div>
+            <div class="card-body">         
+                <p class="card-text">Price: @dish.Price</p>
+                    @if(@dish.Availability == true)
+                    {
+                        <span class="badge bg-primary">Available</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-primary">Unavailable</span>
+                    }
+            </div>
+        </div>
+    </div>
+}
+</div>
+
+
+
+
+
