@@ -7,8 +7,8 @@ namespace Lab1.Models
     {    
         public int Id { get; set; }
         
-        [Required(ErrorMessage = "Title cannot be blank")]
-        [DisplayName("Film Title")]
+        [Required(ErrorMessage = "Name cannot be blank")]
+        [DisplayName("Name")]
         public string Name { get; set; }
 
         [Required(ErrorMessage = "Price cannot be blank")]

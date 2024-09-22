@@ -20,3 +20,27 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+/*CSS BELOW AFFECTS MENU PAGE*/
+
+.menu-item {
+    width: 15rem;
+    height: 12rem;
+}
+
+.menu-card-container {
+    padding-top: 2rem;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    justify-content: space-evenly;
+    margin: 0 auto;
+    width: 50rem;
+}
+
+.menu-header {
+    padding-top: 2rem;
+    display: flex;
+    justify-content: center;
+}
