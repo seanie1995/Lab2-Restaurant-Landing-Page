@@ -1,20 +1,5 @@
 ﻿@model List<Dish>
 
-@* <ul class="list-group all-dishes">
-    @foreach (var dish in Model)
-    {
-        <li class="list-group-item">
-            <h5>@dish.Name</h5> PRICE: @dish.Price:- @if (@dish.Availability == true)
-            {
-                <span class="badge text-bg-success">Available</span>
-            } else
-            {
-                <span class="badge text-bg-danger">Unavailable</span>
-            }
-            <a asp-controller="Dish" asp-action="Edit" asp-route-id=@dish.Id class="btn btn-warning">Edit</a>
-        </li>
-    }
-</ul> *@
 
 <table class="table table-hover">
     <thead>
@@ -39,7 +24,7 @@
                 {
                     <td><span class="badge text-bg-danger">Unavailable</span></td>
                 }
-                <td><a asp-controller="Dish" asp-action="Edit" asp-route-id=@dish.Id class="btn btn-warning">Edit</a></td>
+                <td><a asp-controller="Dish" asp-action="Edit" asp-route-id=@dish.Id class="btn btn-info">Edit</a></td>
                 <td>
                     <form asp-controller="Dish" asp-action="Delete" asp-route-id="@dish.Id" method="post" onsubmit="return confirm('Are you sure you want to delete this dish?');">
                         <input type="hidden" name="id" value="@dish.Id" />
@@ -50,3 +35,6 @@
         }       
     </tbody>
 </table>
+
+<a asp-action="Create" asp-controller="Dish" class="btn btn-primary">Add New Dish</a>
+<a asp-action="AdminMenu" asp-controller="Admin" class="btn btn-secondary">Return</a>

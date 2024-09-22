@@ -61,12 +61,36 @@ body {
     gap: 10px; /* Adds space between the buttons */
 }
 
-/* DISH INDEX*/
+/* DISH INDEX */
 
 .all-dishes {
     padding-top: 2rem;
 }
 
-.all-dishes h5 {
+/* DISH CREATE & EDIT */
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Vertically center */
+    align-items: center; /* Horizontally center */
+    height: 50vh; /* Takes the full height of the viewport */ 
     
 }
+
+.form-container .form-group {
+    margin-top: 1rem;
+}
+
+.form-container form {
+    width: 20rem;
+}
+
+.center-buttons {
+    margin-top: 1rem;
+}
+
+
+
+
+

@@ -29,8 +29,16 @@ namespace Lab1.Controllers
             return View(dishList);
         }
 
-        public async Task<IActionResult> AdminMenu()
+        public IActionResult AdminMenu()
         {
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult Create()
+        {
+            ViewData["Title"] = "New Dish";
+
             return View();
         }
 

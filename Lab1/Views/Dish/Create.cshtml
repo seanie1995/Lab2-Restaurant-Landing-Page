@@ -1,0 +1,31 @@
+﻿@model Dish
+
+
+
+<div class="form-container">
+	<h2>Add New Dish</h2>
+	<form asp-action="create" method="post">
+		<div class="form-group">
+			<label asp-for="Name">Name: </label>
+			<input asp-for="Name" class="form-control" />
+			<span asp-validation-for="Name" class="text-danger"></span>
+		</div>
+		<div class="form-group">
+			<label asp-for="Price">Price:</label>
+			<input asp-for="Price" class="form-control" />
+			<span asp-validation-for="Price" class="text-danger"></span>
+		</div>
+		<div class="form-group">
+			<label>Availability:</label>
+			<select asp-for="Availability" class="form-control">
+				<option value="true">Available</option>
+				<option value="false">Unavailable</option>
+			</select>
+		</div>
+		<div class="center-buttons">
+			<button type="submit" class="btn btn-primary">Submit</button>
+			<a asp-action="Index" asp-controller="Dish" class="btn btn-secondary">Return</a>
+		</div>
+	</form>
+</div>
+

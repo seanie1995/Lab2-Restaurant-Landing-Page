@@ -1,0 +1,34 @@
+﻿@model List<Customer>
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th scope="col">Surname</th>
+            <th scope="col">FirstName</th>
+            <th scope="col">Email Address</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var customer in Model)
+        {
+            <tr class="table-primary">
+                <th scope="row">@customer.LastName</th>
+                <td>@customer.FirstName</td>
+                <td>@customer.Email</td>
+                <td><a asp-controller="Customer" asp-action="Index" asp-route-id="@customer.Id" class="btn btn-info">Edit</a></td>
+                <td><a asp-controller="Booking" asp-action="CustomerBooking" asp-route-id="@customer.Id" class="btn btn-info">Bookings</a></td>
+                <td>
+                    <form asp-controller="Customer" asp-action="Delete" asp-route-id="@customer.Id" method="post" onsubmit="return confirm('Are you sure you want to delete this customer?');">
+                        <input type="hidden" name="id" value="@customer.Id" />
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-action="Create" asp-controller="Customer" class="btn btn-primary">Add Customer</a>
+<a asp-action="AdminMenu" asp-controller="Admin" class="btn btn-secondary">Return</a>
