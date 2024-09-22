@@ -1,0 +1,18 @@
+﻿@model List<Dish>
+
+<ul class="list-group">
+    @foreach (var dish in Model)
+    {
+        <li class="list-group-item">
+            <h5>@dish.Name</h5> PRICE: @dish.Price:- @if (@dish.Availability == true)
+            {
+                <span class="badge text-bg-success">Available</span>
+            } else
+            {
+                <span class="badge text-bg-danger">Unavailable</span>
+            }
+            <a asp-controller="Admin" asp-action="Edit" asp-route-id=@dish.Id class="btn btn-warning">Edit</a>
+        </li>
+    }
+</ul>
+
