@@ -129,37 +129,6 @@ namespace Lab1.Controllers
             return RedirectToAction("Index", "Customer");
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Create(int customerId, string firstName)
-        {
-            ViewBag.CustomerId = customerId;
-            ViewBag.FirstName = firstName;  
-            ViewData["Title"] = "New Booking";
-            
-            return View();
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Create(Booking booking)
-        {
-            int customerId = booking.CustomerId;
-
-            if (!ModelState.IsValid)
-            {
-                return View(booking);
-            }
-
-            var json = JsonConvert.SerializeObject(booking);
-
-            Console.WriteLine($"Json being sent: {json}");
-
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
-
-            var response = await _client.PostAsync($"{baseUrl}/api/Booking/addBooking/{customerId}", content);
-
-            return RedirectToAction("Index", "Customer");
-        }
-
         [HttpPost]
         public async Task<IActionResult> Delete(int id)
         {
