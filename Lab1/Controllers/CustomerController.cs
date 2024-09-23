@@ -50,6 +50,41 @@ namespace Lab1.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Edit(int Id)
+        {
+            var response = await _client.GetAsync($"{baseUrl}/api/Customer/getCustomerById/{Id}");
+
+            var json = await response.Content.ReadAsStringAsync();
+          
+            var customer = JsonConvert.DeserializeObject<Customer>(json);
+           
+            return View(customer);
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> Edit(Customer customer)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(customer);
+            }
+
+            var json = JsonConvert.SerializeObject(customer);
+            Console.WriteLine("Sending JSON to API: " + json);
+
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var response = await _client.PutAsync($"{baseUrl}/api/Customer/updateCustomerInfo/{customer.Id}", content);
+            if (!response.IsSuccessStatusCode)
+            {
+                ModelState.AddModelError("", "Failed to update customer. Please try again.");
+                return View(customer); // Return to the edit view with the model to show error messages
+            }
+
+            return RedirectToAction("Index");
+        }
+
         [HttpPost]
         public async Task<IActionResult> Delete(int id)
         {

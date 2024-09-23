@@ -1,6 +1,7 @@
 ﻿@model List<Booking>
 
 <div>
+    <h2>Bookings by: @ViewBag.FirstName @ViewBag.LastName </h2>
     <table class="table table-hover">
         <thead>
             <tr>
@@ -40,6 +41,6 @@
         </tbody>
     </table>
 
-    <a asp-action="Create" asp-controller="Booking" class="btn btn-primary">Add Booking</a>
+    <a asp-action="Create" asp-controller="Booking" asp-route-customerId="@ViewBag.CustomerId" class="btn btn-primary">Add Booking</a>
     <a asp-action="Index" asp-controller="Customer" class="btn btn-secondary">Return</a>
 </div>

@@ -1,8 +1,10 @@
 ﻿@model List<Customer>
 
 <table class="table table-hover">
+    <h2>Customer List</h2>
     <thead>
         <tr>
+            <th scope="col">Customer ID</th>
             <th scope="col">Surname</th>
             <th scope="col">FirstName</th>
             <th scope="col">Email Address</th>
@@ -14,11 +16,12 @@
         @foreach (var customer in Model)
         {
             <tr class="table-primary">
-                <th scope="row">@customer.LastName</th>
+                <th scope="row">@customer.Id</th>
+                <td>@customer.LastName</td>
                 <td>@customer.FirstName</td>
                 <td>@customer.Email</td>
-                <td><a asp-controller="Customer" asp-action="Index" asp-route-id="@customer.Id" class="btn btn-info">Edit</a></td>
-                <td><a asp-controller="Booking" asp-action="CustomerBooking" asp-route-id="@customer.Id" class="btn btn-info">Bookings</a></td>
+                <td><a asp-controller="Customer" asp-action="Edit" asp-route-id="@customer.Id" class="btn btn-info">Edit</a></td>
+                <td><a asp-controller="Booking" asp-action="CustomerBooking" asp-route-id="@customer.Id" asp-route-firstName="@customer.FirstName" asp-route-lastName="@customer.LastName" class="btn btn-info">Bookings</a></td>
                 <td>
                     <form asp-controller="Customer" asp-action="Delete" asp-route-id="@customer.Id" method="post" onsubmit="return confirm('Are you sure you want to delete this customer?');">
                         <input type="hidden" name="id" value="@customer.Id" />

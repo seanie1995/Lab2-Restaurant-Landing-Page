@@ -1,0 +1,28 @@
+﻿@model Customer
+
+<div class="form-container">
+    <h2>Edit Customer Info</h2>
+
+    <form method="post" asp-action="Edit">
+        <div class="form-group">
+            <label asp-for="LastName">Last Name:</label>
+            <input asp-for="LastName" class="form-control" />
+            <span asp-validation-for="LastName" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="FirstName">First Name:</label>
+            <input asp-for="FirstName" class="form-control" />
+            <span asp-validation-for="FirstName" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Email">Email Address:</label>
+            <input asp-for="Email" class="form-control" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+        <input type="hidden" asp-for="Id" />
+        <div class="center-buttons">
+            <button type="submit" class="btn btn-primary">Save</button>
+            <a asp-action="Index" asp-controller="Customer" class="btn btn-secondary">Return</a>
+        </div>
+    </form>
+</div>
