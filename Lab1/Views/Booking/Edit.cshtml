@@ -1,0 +1,34 @@
+﻿@model Booking
+
+<div class="form-container">
+	<h2>Edit Booking @Model.Id</h2>
+	<form asp-action="edit" method="post">
+		<input type="hidden" asp-for="Id" />
+		
+		<div class="form-group">
+			<label asp-for="PartySize">Party Size:</label>
+			<input asp-for="PartySize" class="form-control" type="number" min="1" max="8" />
+			<span asp-validation-for="PartySize" class="text-danger"></span>
+		</div>
+		<div class="form-group">
+			<label asp-for="BookingStart">Start Time:</label>
+			<input asp-for="BookingStart" class="form-control" type="datetime-local" />
+			<span asp-validation-for="BookingStart" class="text-danger"></span>
+		</div>
+		<div class="form-group">
+			<label asp-for="BookingEnd">End Time:</label>
+			<input asp-for="BookingEnd" class="form-control" type="datetime-local" />
+			<span asp-validation-for="BookingStart" class="text-danger"></span>
+		</div>
+		<div class="form-group">
+			<label asp-for="TableId">Table Id:</label>
+			<input asp-for="TableId" class="form-control" type="number" min="1" />
+			<span asp-validation-for="BookingStart" class="text-danger"></span>
+		</div>
+		<div class="center-buttons">
+			<button type="submit" class="btn btn-primary">Submit</button>
+			<a asp-action="Index" asp-controller="Booking" class="btn btn-secondary">Return</a>
+		</div>
+	</form>
+</div>
+

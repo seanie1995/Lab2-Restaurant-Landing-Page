@@ -7,5 +7,6 @@
         public DateTime BookingStart { get; set; }
         public DateTime BookingEnd { get; set; }
         public int TableId { get; set; }
+        public int CustomerId { get; set; }
     }
 }

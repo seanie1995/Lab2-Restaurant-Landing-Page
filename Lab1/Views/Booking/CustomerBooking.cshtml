@@ -1,11 +1,13 @@
 ﻿@model List<Booking>
 
 <div>
+    <h2>Bookings by: @ViewBag.FirstName @ViewBag.LastName </h2>
     <table class="table table-hover">
         <thead>
             <tr>
                 <th scope="col">Booking Number</th>
                 <th scope="col">Party Size</th>
+                <th>Table Id</th>
                 <th scope="col">Start</th>
                 <th scope="col">End</th>
                 <th scope="col"></th>
@@ -18,6 +20,7 @@
                 <tr class="table-primary">
                     <th scope="row">@booking.Id</th>
                     <td>@booking.PartySize</td>
+                    <td>@booking.TableId</td>
                     <td>
                         <time datetime="@booking.BookingStart.ToString("yyyy-MM-ddTHH:mm:ss")">
                             @booking.BookingStart.ToString("MMMM dd, yyyy - HH:mm")
@@ -28,9 +31,9 @@
                             @booking.BookingEnd.ToString("MMMM dd, yyyy - HH:mm")
                         </time>
                     </td>
-                    <td><a asp-controller="Booking" asp-action="" asp-route-id="@booking.Id" class="btn btn-info">Edit</a></td>                  
+                    <td><a asp-controller="Booking" asp-action="Edit" asp-route-id="@booking.Id" class="btn btn-info">Edit</a></td>                  
                     <td>
-                        <form asp-controller="Booking" asp-action="Delete" asp-route-id="@booking.Id" method="post" onsubmit="return confirm('Are you sure you want to delete this booking?');">
+                        <form asp-controller="Booking" asp-action="Delete" asp-route-id="@booking.Id" asp-route-returnUrl="@Url.Action("CustomerBooking", "Booking", new { id = ViewBag.CustomerId, firstName = ViewBag.FirstName, lastName = ViewBag.LastName })" method="post" onsubmit="return confirm('Are you sure you want to delete this booking?');">
                             <input type="hidden" name="id" value="@booking.Id" />
                             <button type="submit" class="btn btn-danger">Delete</button>
                         </form>
@@ -40,6 +43,6 @@
         </tbody>
     </table>
 
-    <a asp-action="Create" asp-controller="Booking" class="btn btn-primary">Add Booking</a>
+    <a asp-action="Create" asp-controller="Booking" asp-route-customerId="@ViewBag.CustomerId" class="btn btn-primary">Add Booking</a>
     <a asp-action="Index" asp-controller="Customer" class="btn btn-secondary">Return</a>
 </div>
