@@ -88,7 +88,7 @@ namespace Lab1.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(Booking booking)
+        public async Task<IActionResult> Edit(Booking booking, string returnUrl = null)
         {
             if (!ModelState.IsValid)
             {
@@ -103,11 +103,16 @@ namespace Lab1.Controllers
 			var response = await _client.PutAsync($"{baseUrl}/api/Booking/updateBookingById/{booking.Id}", content);
 			if (!response.IsSuccessStatusCode)
 			{
-				ModelState.AddModelError("", "Failed to update customer. Please try again.");
+				ModelState.AddModelError("", "Failed to update booking. Please try again.");
 				return View(booking); // Return to the edit view with the model to show error messages
 			}
 
-			return RedirectToAction("Index");
+            if (!string.IsNullOrEmpty(returnUrl))
+            {
+                return Redirect(returnUrl);
+            }
+
+            return RedirectToAction("Index");
 		}
 
         [HttpPost]
@@ -129,12 +134,12 @@ namespace Lab1.Controllers
             return RedirectToAction("Index", "Customer");
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Delete(int id)
-        {
-            var response = await _client.DeleteAsync($"{baseUrl}/api/Booking/deleteBookingById/{id}");
+        //[HttpPost]
+        //public async Task<IActionResult> Delete(int id)
+        //{
+        //    var response = await _client.DeleteAsync($"{baseUrl}/api/Booking/deleteBookingById/{id}");
 
-            return RedirectToAction("Index", "Customer");
-        }
+        //    return RedirectToAction("Index", "Customer");
+        //}
     }
 }

@@ -1,0 +1,33 @@
+﻿@model List<Table>
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th scope="col">Table ID</th>
+            <th scope="col">Capacity</th>  
+            
+            <th></th>
+            <th scope="col">Delete</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var table in Model)
+        {
+            <tr class="table-primary">
+                <th scope="row">@table.Id</th>
+                <td>@table.Capacity</td>     
+               @*  <td><a asp-controller="Booking" asp-action="CustomerBooking" asp-route-id="" class="btn btn-info">Bookings</a></td> *@
+                <td><a asp-controller="Table" asp-action="Edit" asp-route-id="@table.Id" class="btn btn-info">Edit</a></td>
+                <td>
+                    <form asp-controller="Table" asp-action="Delete" asp-route-id="@table.Id" method="post" onsubmit="return confirm('Are you sure you want to delete this table?');">
+                        
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-action="Create" asp-controller="Table" class="btn btn-primary">Add New Table</a>
+<a asp-action="AdminMenu" asp-controller="Admin" class="btn btn-secondary">Return</a>

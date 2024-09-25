@@ -31,7 +31,7 @@
                             @booking.BookingEnd.ToString("MMMM dd, yyyy - HH:mm")
                         </time>
                     </td>
-                    <td><a asp-controller="Booking" asp-action="Edit" asp-route-id="@booking.Id" class="btn btn-info">Edit</a></td>                  
+                    <td><a asp-controller="Booking" asp-action="Edit" asp-route-id="@booking.Id" asp-route-returnUrl="@Url.Action("CustomerBooking", "Booking", new { id = ViewBag.CustomerId, firstName = ViewBag.FirstName, lastName = ViewBag.LastName })" class="btn btn-info">Edit</a></td>
                     <td>
                         <form asp-controller="Booking" asp-action="Delete" asp-route-id="@booking.Id" asp-route-returnUrl="@Url.Action("CustomerBooking", "Booking", new { id = ViewBag.CustomerId, firstName = ViewBag.FirstName, lastName = ViewBag.LastName })" method="post" onsubmit="return confirm('Are you sure you want to delete this booking?');">
                             <input type="hidden" name="id" value="@booking.Id" />

@@ -1,0 +1,17 @@
+﻿@model Table
+
+<div class="form-container">
+	<h2>Add New Table</h2>
+	<form asp-action="create" method="post">
+		<div class="form-group">
+			<label asp-for="Capacity">Capacity: </label>
+			<input asp-for="Capacity" class="form-control" />
+			<span asp-validation-for="Capacity" class="text-danger"></span>		
+		</div>
+		<div class="center-buttons">
+			<button type="submit" class="btn btn-primary">Submit</button>
+			<a asp-action="Index" asp-controller="Table" class="btn btn-secondary">Return</a>
+		</div>
+	</form>
+</div>
+
