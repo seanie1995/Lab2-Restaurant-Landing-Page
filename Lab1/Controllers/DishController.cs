@@ -1,4 +1,5 @@
 ﻿using Lab1.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Text;
@@ -41,6 +42,7 @@ namespace Lab1.Controllers
 
             return View();
         }
+
 
         [HttpPost]
         public async Task<IActionResult> Create(Dish dish)
@@ -92,9 +94,13 @@ namespace Lab1.Controllers
             return RedirectToAction("Index");
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Delete(int id)
         {
+            var token = HttpContext.Request.Cookies["jwtToken"];
+            _client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+
             var response = await _client.DeleteAsync($"{baseUrl}/api/Dishes/deleteDishById/{id}");
 
             return RedirectToAction("Index");
