@@ -1,10 +1,12 @@
 ﻿using Lab1.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Text;
 
 namespace Lab1.Controllers
 {
+    [Authorize]
     public class BookingController : Controller
     {
         private readonly HttpClient _client;
@@ -17,12 +19,16 @@ namespace Lab1.Controllers
         {
             ViewData["Title"] = "All Bookings";
 
+            var token = HttpContext.Request.Cookies["jwtToken"];
+            _client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+
             var response = await _client.GetAsync($"{baseUrl}/api/Booking/getAllBookings");
 
             var json = await response.Content.ReadAsStringAsync();
 
             var bookingList = JsonConvert.DeserializeObject<List<Booking>>(json);
 
+          
             return View(bookingList);
         }
 
@@ -34,12 +40,17 @@ namespace Lab1.Controllers
             ViewBag.FirstName = firstName;
             ViewBag.LastName = lastName;
             ViewBag.CustomerId = Id;
-           
+
+            var token = HttpContext.Request.Cookies["jwtToken"];
+            _client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+
             var response = await _client.GetAsync($"{baseUrl}/api/Booking/getCustomerBookingsByCustomerId/{Id}");
 
             var json = await response.Content.ReadAsStringAsync();
 
-            var bookingList = JsonConvert.DeserializeObject<List<Booking>>(json);   
+            var bookingList = JsonConvert.DeserializeObject<List<Booking>>(json);
+
+            
 
             return View(bookingList);
         }
@@ -50,7 +61,10 @@ namespace Lab1.Controllers
             ViewBag.CustomerId = customerId;
             ViewBag.FirstName = firstName;  
             ViewData["Title"] = "New Booking";
-            
+
+            var token = HttpContext.Request.Cookies["jwtToken"];
+            _client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+
             return View();
         }
 
@@ -70,7 +84,12 @@ namespace Lab1.Controllers
 
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
+            var token = HttpContext.Request.Cookies["jwtToken"];
+            _client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+
             var response = await _client.PostAsync($"{baseUrl}/api/Booking/addBooking/{customerId}", content);
+
+           
 
             return RedirectToAction("Index", "Customer");
         }
@@ -78,11 +97,16 @@ namespace Lab1.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(int Id)
         {
+            var token = HttpContext.Request.Cookies["jwtToken"];
+            _client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+
             var response = await _client.GetAsync($"{baseUrl}/api/Booking/getBookingById/{Id}");
 
             var json = await response.Content.ReadAsStringAsync();
 
             var booking = JsonConvert.DeserializeObject<Booking>(json);
+
+           
 
             return View(booking);
         }
@@ -100,8 +124,14 @@ namespace Lab1.Controllers
 
 			var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-			var response = await _client.PutAsync($"{baseUrl}/api/Booking/updateBookingById/{booking.Id}", content);
-			if (!response.IsSuccessStatusCode)
+            var token = HttpContext.Request.Cookies["jwtToken"];
+            _client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+
+            var response = await _client.PutAsync($"{baseUrl}/api/Booking/updateBookingById/{booking.Id}", content);
+
+           
+
+            if (!response.IsSuccessStatusCode)
 			{
 				ModelState.AddModelError("", "Failed to update booking. Please try again.");
 				return View(booking); // Return to the edit view with the model to show error messages
@@ -118,7 +148,12 @@ namespace Lab1.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(int id, string returnUrl = null)
         {
+
+            var token = HttpContext.Request.Cookies["jwtToken"];
+            _client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
             var response = await _client.DeleteAsync($"{baseUrl}/api/Booking/deleteBookingById/{id}");
+
+            
 
             if (!response.IsSuccessStatusCode)
             {

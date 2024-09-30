@@ -21,6 +21,11 @@ namespace Lab1.Controllers
 
         public IActionResult AdminMenu()
         {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Login");
+            }
+
             return View();
         }
 
@@ -64,7 +69,7 @@ namespace Lab1.Controllers
                 Expires = jwtToken.ValidTo
             });
 
-            return RedirectToAction("Index", "Home");   
+            return RedirectToAction("AdminMenu");   
         }
 
         [HttpPost]

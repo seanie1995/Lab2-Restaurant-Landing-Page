@@ -1,10 +1,12 @@
 ﻿using Lab1.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Text;
 
 namespace Lab1.Controllers
 {
+    [Authorize]
     public class CustomerController : Controller
     {
         private readonly HttpClient _client;
@@ -17,11 +19,16 @@ namespace Lab1.Controllers
         {
             ViewData["Title"] = "Customers Overview";
 
+            var token = HttpContext.Request.Cookies["jwtToken"];
+            _client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+
             var response = await _client.GetAsync($"{baseUrl}/api/Customer/getallcustomers");
 
             var json = await response.Content.ReadAsStringAsync();
 
             var customerList = JsonConvert.DeserializeObject<List<Customer>>(json);
+
+           
 
             return View(customerList);
         }
@@ -29,6 +36,9 @@ namespace Lab1.Controllers
         public IActionResult Create()
         {
             ViewData["Title"] = "New Customer";
+
+            var token = HttpContext.Request.Cookies["jwtToken"];
+            _client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
 
             return View();
         }
@@ -41,11 +51,16 @@ namespace Lab1.Controllers
                 return View(customer);
             }
 
+            var token = HttpContext.Request.Cookies["jwtToken"];
+            _client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+
             var json = JsonConvert.SerializeObject(customer);
 
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
             var response = await _client.PostAsync($"{baseUrl}/api/Customer/addCustomer", content);
+
+           
 
             return RedirectToAction("Index");
         }
@@ -53,12 +68,17 @@ namespace Lab1.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(int Id)
         {
+            var token = HttpContext.Request.Cookies["jwtToken"];
+            _client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+
             var response = await _client.GetAsync($"{baseUrl}/api/Customer/getCustomerById/{Id}");
 
             var json = await response.Content.ReadAsStringAsync();
           
             var customer = JsonConvert.DeserializeObject<Customer>(json);
+
            
+
             return View(customer);
         }
 
@@ -76,7 +96,13 @@ namespace Lab1.Controllers
 
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
+            var token = HttpContext.Request.Cookies["jwtToken"];
+            _client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+
             var response = await _client.PutAsync($"{baseUrl}/api/Customer/updateCustomerInfo/{customer.Id}", content);
+
+            
+
             if (!response.IsSuccessStatusCode)
             {
                 ModelState.AddModelError("", "Failed to update customer. Please try again.");
@@ -89,6 +115,9 @@ namespace Lab1.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(int id)
         {
+            var token = HttpContext.Request.Cookies["jwtToken"];
+            _client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+
             var response = await _client.DeleteAsync($"{baseUrl}/api/Customer/deleteCustomer/{id}");
 
             return RedirectToAction("Index");
