@@ -29,9 +29,12 @@ namespace Lab1.Controllers
 
             return View(dishList);
         }
-
+        [Authorize]
         public IActionResult AdminMenu()
         {
+            var token = HttpContext.Request.Cookies["jwtToken"];
+            _client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+
             return View();
         }
 
@@ -40,10 +43,13 @@ namespace Lab1.Controllers
         {
             ViewData["Title"] = "New Dish";
 
+            var token = HttpContext.Request.Cookies["jwtToken"];
+            _client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+
             return View();
         }
 
-
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Create(Dish dish)
         {
@@ -55,22 +61,31 @@ namespace Lab1.Controllers
             var json = JsonConvert.SerializeObject(dish);
 
             var content = new StringContent(json, Encoding.UTF8, "application/json");
-
+            var token = HttpContext.Request.Cookies["jwtToken"];
+            _client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
             var response = await _client.PostAsync($"{baseUrl}/api/Dishes/addNewDish", content);
+
+            
 
             return RedirectToAction("Index");
         }
-
+        [Authorize]
         public async Task<IActionResult> Edit(int id)
         {
+            var token = HttpContext.Request.Cookies["jwtToken"];
+            _client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+
             var response = await _client.GetAsync($"{baseUrl}/api/Dishes/getDishById/{id}");
 
             var json = await response.Content.ReadAsStringAsync();
 
             var dish = JsonConvert.DeserializeObject<Dish>(json);
 
+           
+
             return View(dish);
         }
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Edit(Dish dish)
         {
@@ -84,7 +99,13 @@ namespace Lab1.Controllers
 
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
+            var token = HttpContext.Request.Cookies["jwtToken"];
+            _client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+
             var response = await _client.PutAsync($"{baseUrl}/api/Dishes/updateDishById/{dish.Id}", content);
+
+            
+
             if (!response.IsSuccessStatusCode)
             {            
                 ModelState.AddModelError("", "Failed to update the dish. Please try again.");
@@ -102,6 +123,8 @@ namespace Lab1.Controllers
             _client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
 
             var response = await _client.DeleteAsync($"{baseUrl}/api/Dishes/deleteDishById/{id}");
+
+
 
             return RedirectToAction("Index");
         }

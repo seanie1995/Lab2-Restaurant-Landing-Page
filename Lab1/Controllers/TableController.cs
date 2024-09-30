@@ -1,11 +1,13 @@
 ﻿using Lab1.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Text;
 
 namespace Lab1.Controllers
 {
-	public class TableController : Controller
+    [Authorize]
+    public class TableController : Controller
 	{
         private readonly HttpClient _client;
         private string baseUrl = "https://localhost:7234";
@@ -18,19 +20,27 @@ namespace Lab1.Controllers
 		{
 			ViewData["Title"] = "Tables Overview";
 
-			var response = await _client.GetAsync($"{baseUrl}/api/Table/getAllTables");
+            var token = HttpContext.Request.Cookies["jwtToken"];
+            _client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+
+            var response = await _client.GetAsync($"{baseUrl}/api/Table/getAllTables");
 
 			var json = await response.Content.ReadAsStringAsync();
 
-			var tablesList = JsonConvert.DeserializeObject<List<Table>>(json);	
+			var tablesList = JsonConvert.DeserializeObject<List<Table>>(json);
 
-			return View(tablesList);
+            
+
+            return View(tablesList);
 		}
 
         [HttpGet]
         public IActionResult Create()
         {
             ViewData["Title"] = "New Table";
+
+            var token = HttpContext.Request.Cookies["jwtToken"];
+            _client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
 
             return View();
         }
@@ -39,8 +49,13 @@ namespace Lab1.Controllers
         {
             ViewData["Title"] = "Add New Table";
 
+            var token = HttpContext.Request.Cookies["jwtToken"];
+            _client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+
             // Send the capacity as part of the URL, no content needed
             var response = await _client.PostAsync($"{baseUrl}/api/Table/addTable/{capacity}", null);
+
+           
 
             return RedirectToAction("Index");
         }
@@ -48,11 +63,17 @@ namespace Lab1.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
+
+            var token = HttpContext.Request.Cookies["jwtToken"];
+            _client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+
             var response = await _client.GetAsync($"{baseUrl}/api/Table/getTableById/{id}");
 
             var json = await response.Content.ReadAsStringAsync();
 
             var table = JsonConvert.DeserializeObject<Table>(json);
+
+           
 
             return View(table);
         }
@@ -63,8 +84,13 @@ namespace Lab1.Controllers
             int tableId = table.Id; 
             int newCapacity = table.Capacity;
 
+            var token = HttpContext.Request.Cookies["jwtToken"];
+            _client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+
             // Construct the URL using tableId and the newCapacity
             var response = await _client.PutAsync($"{baseUrl}/api/Table/updateTable/{tableId}/{newCapacity}", null);
+
+           
 
             if (response.IsSuccessStatusCode)
             {
@@ -81,9 +107,12 @@ namespace Lab1.Controllers
 
         [HttpPost]
         public async Task<IActionResult> Delete(int id)
-        {        
-            var response = await _client.DeleteAsync($"{baseUrl}/api/Table/deleteTableById/{id}");
+        {
+            var token = HttpContext.Request.Cookies["jwtToken"];
+            _client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
 
+            var response = await _client.DeleteAsync($"{baseUrl}/api/Table/deleteTableById/{id}");
+           
             return RedirectToAction("Index");
         }
 
