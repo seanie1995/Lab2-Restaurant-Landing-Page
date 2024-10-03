@@ -28,6 +28,8 @@ namespace Lab1.Controllers
 
             var bookingList = JsonConvert.DeserializeObject<List<Booking>>(json);
 
+           
+
           
             return View(bookingList);
         }
