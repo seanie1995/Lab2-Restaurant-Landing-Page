@@ -97,7 +97,7 @@ namespace Lab1.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Edit(int Id)
+        public async Task<IActionResult> Edit(int Id, string returnUrl)
         {
             var token = HttpContext.Request.Cookies["jwtToken"];
             _client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
@@ -108,13 +108,13 @@ namespace Lab1.Controllers
 
             var booking = JsonConvert.DeserializeObject<Booking>(json);
 
-           
+            ViewData["ReturnUrl"] = returnUrl ?? Url.Action("ViewAll");
 
             return View(booking);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(Booking booking, string returnUrl = null)
+        public async Task<IActionResult> Edit(Booking booking, string returnUrl)
         {
             if (!ModelState.IsValid)
             {
@@ -143,7 +143,7 @@ namespace Lab1.Controllers
             {
                 return Redirect(returnUrl);
             }
-
+                    
             return RedirectToAction("Index");
 		}
 
@@ -155,8 +155,7 @@ namespace Lab1.Controllers
             _client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
             var response = await _client.DeleteAsync($"{baseUrl}/api/Booking/deleteBookingById/{id}");
 
-            
-
+           
             if (!response.IsSuccessStatusCode)
             {
                 // Handle the failure case

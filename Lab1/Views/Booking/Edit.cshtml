@@ -26,6 +26,7 @@
 			<span asp-validation-for="BookingStart" class="text-danger"></span>
 		</div>
 		<div class="center-buttons">
+			<input type="hidden" name="returnUrl" value="@ViewData["ReturnUrl"]"/>
 			<button type="submit" class="btn btn-primary">Submit</button>
 			<a asp-action="Index" asp-controller="Booking" class="btn btn-secondary">Return</a>
 		</div>
