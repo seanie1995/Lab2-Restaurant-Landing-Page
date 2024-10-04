@@ -12,13 +12,36 @@ html {
   box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
-html {
-  position: relative;
-  min-height: 100%;
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
-body {
-  margin-bottom: 60px;
+/* Background image banner */
+.banner {
+    background-image: url("../images/pierogi.jpg"); /* Add the correct path to your image */
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    
+}
+
+/* Transparent box for content */
+.banner-content {
+    background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent black box */
+    padding: 5rem;
+    border-radius: 10px;
+    color: white;
+}
+
+.container {
+    
+    height: 100vh;
+}
+
+footer {
+    padding-top: 1rem;
 }
 
 /*CSS BELOW AFFECTS MENU PAGE*/
@@ -90,7 +113,19 @@ body {
     margin-top: 1rem;
 }
 
+.table-container {
+    max-height: 80vh; /* Adjust the height as needed */
+    overflow-y: auto; /* Enable vertical scrolling */
+    margin-bottom: 20px; /* Add some space below the table */
+}
 
 
-
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 5rem;
+}
 

@@ -135,7 +135,8 @@ namespace Lab1.Controllers
 
             if (!response.IsSuccessStatusCode)
 			{
-				ModelState.AddModelError("", "Failed to update booking. Please try again.");
+                var errorMessage = await response.Content.ReadAsStringAsync();
+				ModelState.AddModelError("", errorMessage);
 				return View(booking); // Return to the edit view with the model to show error messages
 			}
 

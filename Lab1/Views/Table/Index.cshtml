@@ -1,5 +1,6 @@
 ﻿@model List<Table>
 
+<div class="table-container mt-3">
 <table class="table table-hover">
     <thead>
         <tr>
@@ -28,6 +29,7 @@
         }
     </tbody>
 </table>
+</div>
 
 <a asp-action="Create" asp-controller="Table" class="btn btn-primary">Add New Table</a>
 <a asp-action="AdminMenu" asp-controller="Admin" class="btn btn-secondary">Return</a>

@@ -2,7 +2,7 @@
 
 <link rel="stylesheet" href="~/css/Menu.css" />
 
-<h2 class="menu-header">Menu</h2>
+@* <h2 class="menu-header">Menu</h2>
 
 <div class="menu-card-container">
 @foreach(var dish in Model)
@@ -24,7 +24,41 @@
         </div>
     </div>
 }
+</div> *@
+
+<div class="table-container">
+
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Price</th>
+                <th scope="col">Availability</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var dish in Model)
+            {
+                <tr class="table-primary">
+                    <th scope="row">@dish.Name</th>
+                    <td>@dish.Price:-</td>
+                    @if (dish.Availability == true)
+                    {
+                        <td><span class="badge text-bg-success">Available</span></td>
+                    }
+                    else
+                    {
+                        <td><span class="badge text-bg-danger">Unavailable</span></td>
+                    }
+
+                </tr>
+            }
+        </tbody>
+    </table>
+
 </div>
+
+
 
 
 
