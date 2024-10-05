@@ -1,5 +1,9 @@
 ﻿@model List<Customer>
 
+@{
+    ViewData["Title"] = "Customers";
+}
+
 <div class="table-container mt-3">
     <table class="table table-hover">
         <h2>Customer List</h2>
@@ -35,7 +39,9 @@
     </table>
 
 </div>
+<div class="bottom-button-container">
+    <a asp-action="Create" asp-controller="Customer" class="btn btn-primary">Add Customer</a>
+    <a asp-action="AdminMenu" asp-controller="Admin" class="btn btn-secondary">Return</a>
+</div>
 
 
-<a asp-action="Create" asp-controller="Customer" class="btn btn-primary">Add Customer</a>
-<a asp-action="AdminMenu" asp-controller="Admin" class="btn btn-secondary">Return</a>

@@ -18,6 +18,10 @@ body {
     min-height: 100vh;
 }
 
+/*footer {
+    position: relative;
+}*/
+
 /* Background image banner */
 .banner {
     background-image: url("../images/pierogi.jpg"); /* Add the correct path to your image */
@@ -38,10 +42,12 @@ body {
 .container {
     
     height: 100vh;
+    overflow: visible;
 }
 
 footer {
     padding-top: 1rem;
+    margin-top: 2rem;
 }
 
 /*CSS BELOW AFFECTS MENU PAGE*/
@@ -73,59 +79,76 @@ footer {
 .admin-menu-container {
     display: flex;
     flex-direction: column;
-    justify-content: center; /* Vertically center */
-    align-items: center; /* Horizontally center */
-    height: 50vh; /* Takes the full height of the viewport */
+    justify-content: center; 
+    align-items: center; 
+    height: 50vh; 
+    text-align: center;
 }
 
 .admin-menu-button-container {
     display: flex;
-    flex-direction: row;
-    gap: 10px; /* Adds space between the buttons */
-}
-
-/* DISH INDEX */
-
-.all-dishes {
-    padding-top: 2rem;
-}
-
-/* DISH CREATE & EDIT */
-
-.form-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center; /* Vertically center */
-    align-items: center; /* Horizontally center */
-    height: 50vh; /* Takes the full height of the viewport */ 
-    
-}
-
-.form-container .form-group {
-    margin-top: 1rem;
-}
-
-.form-container form {
-    width: 20rem;
-}
-
-.center-buttons {
-    margin-top: 1rem;
-}
-
-.table-container {
-    max-height: 80vh; /* Adjust the height as needed */
-    overflow-y: auto; /* Enable vertical scrolling */
-    margin-bottom: 20px; /* Add some space below the table */
-}
-
-
-.login-container {
-    display: flex;
+    flex-wrap: wrap;
     justify-content: center;
-    align-content: center;
-    align-items: center;
-    text-align: center;
-    padding: 5rem;
+    gap: 10px; /* Space between buttons */
 }
+
+@media (max-width: 768px) {
+    .admin-menu-button-container {
+        flex-direction: column;
+        align-items: center;
+        justify-items: center;
+    }
+
+        .admin-menu-button-container a,
+        .admin-menu-button-container form {
+            width: 100%; /* Full width for smaller screens */
+            max-width: 300px;
+        }
+}
+     
+
+    /* DISH INDEX */
+
+    .all-dishes {
+        padding-top: 2rem;
+    }
+
+    /* DISH CREATE & EDIT */
+
+    .form-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center; 
+        align-items: center;
+        height: 50vh;
+    }
+
+   .form-container .form-group {
+        margin-top: 1rem;
+   }
+
+
+    .form-container form {
+        width: 20rem;
+    }
+
+    .center-buttons {
+        margin-top: 1rem;
+    }
+
+    .table-container {
+        height: 90vh; 
+        overflow-y: auto; 
+        margin-bottom: 20px;
+        width: 100%; 
+    }
+
+    .login-container {
+        display: flex;
+        justify-content: center;
+        align-content: center;
+        align-items: center;
+        text-align: center;
+        padding: 5rem;
+    }
 

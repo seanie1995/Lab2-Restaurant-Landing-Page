@@ -1,7 +1,11 @@
 ﻿@model Booking
 
-<div class="form-container">
-	<h2>Add New Booking for Customer Id: @ViewBag.CustomerId</h2>
+@{
+	ViewData["Title"] = "Create Booking";
+}
+
+<div class="form-container mt-5">
+	<h2>Add New Booking for Customer: @ViewBag.CustomerId</h2>
 	<form asp-action="create" method="post">
 		<input type="hidden" asp-for="CustomerId" value="@ViewBag.CustomerId" />
 		<div class="form-group">
@@ -30,4 +34,6 @@
 		</div>
 	</form>
 </div>
+
+
 

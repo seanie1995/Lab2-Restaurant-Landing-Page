@@ -67,6 +67,8 @@ namespace Lab1.Controllers
             var token = HttpContext.Request.Cookies["jwtToken"];
             _client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
 
+            
+
             return View();
         }
 
@@ -92,7 +94,7 @@ namespace Lab1.Controllers
             var response = await _client.PostAsync($"{baseUrl}/api/Booking/addBooking/{customerId}", content);
 
            
-
+        
             return RedirectToAction("Index", "Customer");
         }
 

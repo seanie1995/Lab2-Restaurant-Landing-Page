@@ -1,8 +1,11 @@
 ﻿@model Customer
 
+@{
+    ViewData["Title"] = "Edit Customer";
+}
+
 <div class="form-container">
     <h2>Edit Customer Info</h2>
-
     <form method="post" asp-action="Edit">
         <div class="form-group">
             <label asp-for="LastName">Last Name:</label>
