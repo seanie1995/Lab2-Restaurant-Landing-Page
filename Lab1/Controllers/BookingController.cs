@@ -27,10 +27,7 @@ namespace Lab1.Controllers
             var json = await response.Content.ReadAsStringAsync();
 
             var bookingList = JsonConvert.DeserializeObject<List<Booking>>(json);
-
-           
-
-          
+        
             return View(bookingList);
         }
 
@@ -52,8 +49,6 @@ namespace Lab1.Controllers
 
             var bookingList = JsonConvert.DeserializeObject<List<Booking>>(json);
 
-            
-
             return View(bookingList);
         }
 
@@ -67,8 +62,7 @@ namespace Lab1.Controllers
             var token = HttpContext.Request.Cookies["jwtToken"];
             _client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
 
-            
-
+           
             return View();
         }
 
@@ -93,9 +87,24 @@ namespace Lab1.Controllers
 
             var response = await _client.PostAsync($"{baseUrl}/api/Booking/addBooking/{customerId}", content);
 
-           
-        
-            return RedirectToAction("Index", "Customer");
+            var json2 = await response.Content.ReadAsStringAsync();
+
+            var result = JsonConvert.DeserializeObject<ServiceResult>(json2);
+
+            if (result.Success == true)
+            {
+                TempData["SuccessMessage"] = result.Message;
+                return RedirectToAction("Index", "Customer");
+            }
+
+			else if (result.Success == false)
+			{
+				TempData["ErrorMessage"] = result.Message;
+				return RedirectToAction("Index", "Customer");
+			}
+
+			return View(booking);
+
         }
 
         [HttpGet]
@@ -133,21 +142,25 @@ namespace Lab1.Controllers
 
             var response = await _client.PutAsync($"{baseUrl}/api/Booking/updateBookingById/{booking.Id}", content);
 
-           
+            if (response.IsSuccessStatusCode)
+            {
+                TempData["SuccessMessage"] = "Update Success";
+            }
 
-            if (!response.IsSuccessStatusCode)
+            else if (!response.IsSuccessStatusCode)
 			{
                 var errorMessage = await response.Content.ReadAsStringAsync();
 				ModelState.AddModelError("", errorMessage);
 				return View(booking); // Return to the edit view with the model to show error messages
 			}
 
-            if (!string.IsNullOrEmpty(returnUrl))
+            else if  (!string.IsNullOrEmpty(returnUrl))
             {
                 return Redirect(returnUrl);
             }
-                    
-            return RedirectToAction("Index");
+
+			
+			return Redirect(returnUrl);
 		}
 
         [HttpPost]
@@ -158,19 +171,23 @@ namespace Lab1.Controllers
             _client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
             var response = await _client.DeleteAsync($"{baseUrl}/api/Booking/deleteBookingById/{id}");
 
-           
-            if (!response.IsSuccessStatusCode)
+            if (response.IsSuccessStatusCode)
+            {
+                TempData["SuccessMessage"] = "Delete Success";
+            }
+
+            else if (!response.IsSuccessStatusCode)
             {
                 // Handle the failure case
                 return BadRequest("Failed to delete booking.");
             }
 
-            if (!string.IsNullOrEmpty(returnUrl))
+            else if (!string.IsNullOrEmpty(returnUrl))
             {
                 return Redirect(returnUrl);
             }
 
-            return RedirectToAction("Index", "Customer");
+            return RedirectToAction(returnUrl);
         }
 
         //[HttpPost]

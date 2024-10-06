@@ -65,7 +65,10 @@ namespace Lab1.Controllers
             _client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
             var response = await _client.PostAsync($"{baseUrl}/api/Dishes/addNewDish", content);
 
-            
+            if (response.IsSuccessStatusCode)
+            {
+                TempData["SuccessMessage"] = "Create Success";
+            }
 
             return RedirectToAction("Index");
         }
@@ -104,9 +107,12 @@ namespace Lab1.Controllers
 
             var response = await _client.PutAsync($"{baseUrl}/api/Dishes/updateDishById/{dish.Id}", content);
 
-            
+            if (response.IsSuccessStatusCode)
+            {
+                TempData["SuccessMessage"] = "Edit Success";
+            }
 
-            if (!response.IsSuccessStatusCode)
+            else if (!response.IsSuccessStatusCode)
             {            
                 ModelState.AddModelError("", "Failed to update the dish. Please try again.");
                 return View(dish); // Return to the edit view with the model to show error messages
@@ -124,7 +130,10 @@ namespace Lab1.Controllers
 
             var response = await _client.DeleteAsync($"{baseUrl}/api/Dishes/deleteDishById/{id}");
 
-
+            if (response.IsSuccessStatusCode)
+            {
+                TempData["SuccessMessage"] = "Delete Success";
+            }
 
             return RedirectToAction("Index");
         }

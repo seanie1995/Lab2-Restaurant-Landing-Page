@@ -55,7 +55,10 @@ namespace Lab1.Controllers
             // Send the capacity as part of the URL, no content needed
             var response = await _client.PostAsync($"{baseUrl}/api/Table/addTable/{capacity}", null);
 
-           
+            if (response.IsSuccessStatusCode)
+            {
+                TempData["SuccessMessage"] = "Create Success";
+            }
 
             return RedirectToAction("Index");
         }
@@ -94,6 +97,7 @@ namespace Lab1.Controllers
 
             if (response.IsSuccessStatusCode)
             {
+                TempData["SuccessMessage"] = "Edit Success";
                 return RedirectToAction("Index"); // Redirect after successful update
             }
             else
@@ -113,6 +117,11 @@ namespace Lab1.Controllers
 
             var response = await _client.DeleteAsync($"{baseUrl}/api/Table/deleteTableById/{id}");
            
+            if (response.IsSuccessStatusCode)
+            {
+                TempData["SuccessMessage"] = "Delete Success";
+            }
+
             return RedirectToAction("Index");
         }
 

@@ -60,7 +60,10 @@ namespace Lab1.Controllers
 
             var response = await _client.PostAsync($"{baseUrl}/api/Customer/addCustomer", content);
 
-           
+            if (response.IsSuccessStatusCode)
+            {
+                TempData["SuccessMessage"] = "Customer Creation Success";
+            }
 
             return RedirectToAction("Index");
         }
@@ -101,13 +104,18 @@ namespace Lab1.Controllers
 
             var response = await _client.PutAsync($"{baseUrl}/api/Customer/updateCustomerInfo/{customer.Id}", content);
 
-            
+            if (response.IsSuccessStatusCode)
+            {
+                TempData["SuccessMessage"] = "Edit Success";
+            }
 
-            if (!response.IsSuccessStatusCode)
+            else if (!response.IsSuccessStatusCode)
             {
                 ModelState.AddModelError("", "Failed to update customer. Please try again.");
                 return View(customer); // Return to the edit view with the model to show error messages
             }
+
+           
 
             return RedirectToAction("Index");
         }
@@ -119,6 +127,11 @@ namespace Lab1.Controllers
             _client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
 
             var response = await _client.DeleteAsync($"{baseUrl}/api/Customer/deleteCustomer/{id}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                TempData["SuccessMessage"] = "Delete Success";
+            }
 
             return RedirectToAction("Index");
         }
