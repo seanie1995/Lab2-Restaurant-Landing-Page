@@ -142,12 +142,9 @@ namespace Lab1.Controllers
 
             var response = await _client.PutAsync($"{baseUrl}/api/Booking/updateBookingById/{booking.Id}", content);
 
-            if (response.IsSuccessStatusCode)
-            {
-                TempData["SuccessMessage"] = "Update Success";
-            }
+           
 
-            else if (!response.IsSuccessStatusCode)
+            if (!response.IsSuccessStatusCode)
 			{
                 var errorMessage = await response.Content.ReadAsStringAsync();
 				ModelState.AddModelError("", errorMessage);
@@ -158,9 +155,8 @@ namespace Lab1.Controllers
             {
                 return Redirect(returnUrl);
             }
-
-			
-			return Redirect(returnUrl);
+                    
+            return RedirectToAction("Index");
 		}
 
         [HttpPost]
