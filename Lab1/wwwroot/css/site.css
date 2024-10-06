@@ -40,14 +40,17 @@ body {
 }
 
 .container {
-    
     height: 100vh;
     overflow: visible;
+    
 }
 
 footer {
     padding-top: 1rem;
-    margin-top: 2rem;
+    clear: both;
+    position: relative;
+    z-index: 10; /* Make sure it's higher than other elements */
+    
 }
 
 /*CSS BELOW AFFECTS MENU PAGE*/
@@ -150,5 +153,12 @@ footer {
         align-items: center;
         text-align: center;
         padding: 5rem;
+    }
+
+    .bottom-button-container {
+        padding-top: 1rem;
+        position: static;
+        height:contain;
+        margin-top: -2rem;
     }
 

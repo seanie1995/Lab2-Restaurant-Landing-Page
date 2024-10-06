@@ -27,10 +27,7 @@ namespace Lab1.Controllers
             var json = await response.Content.ReadAsStringAsync();
 
             var bookingList = JsonConvert.DeserializeObject<List<Booking>>(json);
-
-           
-
-          
+        
             return View(bookingList);
         }
 
@@ -52,8 +49,6 @@ namespace Lab1.Controllers
 
             var bookingList = JsonConvert.DeserializeObject<List<Booking>>(json);
 
-            
-
             return View(bookingList);
         }
 
@@ -67,8 +62,7 @@ namespace Lab1.Controllers
             var token = HttpContext.Request.Cookies["jwtToken"];
             _client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
 
-            
-
+           
             return View();
         }
 
@@ -93,9 +87,18 @@ namespace Lab1.Controllers
 
             var response = await _client.PostAsync($"{baseUrl}/api/Booking/addBooking/{customerId}", content);
 
+            var json2 = await response.Content.ReadAsStringAsync();
+
+            var result = JsonConvert.DeserializeObject<ServiceResult>(json2);
+
+            if (response.IsSuccessStatusCode)
+            {
+                TempData["SuccessMessage"] = result.Message;
+                return RedirectToAction("Index", "Customer");
+            }
            
-        
-            return RedirectToAction("Index", "Customer");
+            return View(booking);
+
         }
 
         [HttpGet]
@@ -134,7 +137,6 @@ namespace Lab1.Controllers
             var response = await _client.PutAsync($"{baseUrl}/api/Booking/updateBookingById/{booking.Id}", content);
 
            
-
             if (!response.IsSuccessStatusCode)
 			{
                 var errorMessage = await response.Content.ReadAsStringAsync();
@@ -146,8 +148,14 @@ namespace Lab1.Controllers
             {
                 return Redirect(returnUrl);
             }
-                    
-            return RedirectToAction("Index");
+
+			if (response.IsSuccessStatusCode)
+			{         
+                TempData["SuccessMessage"] = "Update Success";
+                
+            }
+
+			return RedirectToAction("Index", "Customer");
 		}
 
         [HttpPost]
